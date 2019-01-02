@@ -1,0 +1,40 @@
+@import "variables";
+
+.main-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.nav-container {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+
+  mat-card {
+    padding: 0;
+  }
+}
+
+.form-container {
+  mat-card-subtitle {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-card-actions {
+    text-align: center;
+  }
+}
+
+@media #{$mat-lt-sm} {
+  .nav-container {
+    width: 100%;
+  }
+}

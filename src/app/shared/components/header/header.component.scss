@@ -1,3 +1,5 @@
+@import "variables";
+
 .header {
   // background: linear-gradient(to right, rgba(134, 157, 192, 0.1), rgba(146, 175, 135, 0.1), rgba(144, 101, 127, 0.1));
   display: flex;
@@ -39,4 +41,10 @@
 .header__logout {
   cursor: pointer;
   user-select: none;
+}
+
+@media #{$mat-lt-sm} {
+  .header__brand-name, .header__username {
+    display: none;
+  }
 }
