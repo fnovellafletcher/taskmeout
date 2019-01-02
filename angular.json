@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "taskmeout": {
+    "taskout": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/taskmeout",
+            "outputPath": "dist/taskout",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -29,6 +29,11 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -61,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "taskmeout:build"
+            "browserTarget": "taskout:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "taskmeout:build:production"
+              "browserTarget": "taskout:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "taskmeout:build"
+            "browserTarget": "taskout:build"
           }
         },
         "test": {
@@ -106,7 +111,7 @@
         }
       }
     },
-    "taskmeout-e2e": {
+    "taskout-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +120,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "taskmeout:serve"
+            "devServerTarget": "taskout:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "taskmeout:serve:production"
+              "devServerTarget": "taskout:serve:production"
             }
           }
         },
@@ -135,5 +140,5 @@
       }
     }
   },
-  "defaultProject": "taskmeout"
+  "defaultProject": "taskout"
 }

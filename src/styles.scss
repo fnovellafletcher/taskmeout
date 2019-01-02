@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/normalize.css/normalize.css";
+
+@import "./assets/fonts/medium.scss";
+
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@font-face {
+  font-family: 'TitleFont';
+  src: url("./assets/fonts/titles.ttf") format("truetype")
+}
+
+body {
+  font-family: 'medium-content-sans-serif-font';
+  font-size: 14px;
+}

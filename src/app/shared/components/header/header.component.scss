@@ -1,0 +1,42 @@
+.header {
+  // background: linear-gradient(to right, rgba(134, 157, 192, 0.1), rgba(146, 175, 135, 0.1), rgba(144, 101, 127, 0.1));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  color: #F8F1F6;
+
+  // box-shadow: 0px -5px 8px 5px rgba(94, 94, 94, 0.7) !important;
+
+  div, span {
+    padding: 5px;
+  }
+}
+
+.header__logo-img {
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  left: 0;
+  padding: 10px;
+}
+
+.header__brand-name {
+  font-family: 'TitleFont';
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.header__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  right: 0;
+}
+
+.header__logout {
+  cursor: pointer;
+  user-select: none;
+}
