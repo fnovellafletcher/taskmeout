@@ -1,3 +1,62 @@
-<p>
-  board-main works!
-</p>
+<mat-progress-bar *ngIf="loading" [mode]="'indeterminate'"></mat-progress-bar>
+<div id="board-container" class="board__container" cdkDropListGroup>
+  <mat-card class="board__list" *ngFor="let list of lists">
+    <mat-card-header>
+      <mat-card-title>
+        <input class="board__title" placeholder="Type list name here" [ngModel]="list.name" (ngModelChange)="updateList(list.id, list.name)">
+      </mat-card-title>
+      <button class="board__add-task" mat-icon-button [matMenuTriggerFor]="listOptions">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #listOptions="matMenu">
+        <button type="button" mat-menu-item (click)="addTaskToList(list.id, $event)">Add task</button>
+        <button type="button" mat-menu-item (click)="showDeleteListDialog(list.id, $event)">Delete</button>
+      </mat-menu>
+    </mat-card-header>
+    <mat-card-content *ngIf="getTasksFromList(list.id).length === 0" class="empty-list-helper" cdkDropList
+      (cdkDropListDropped)="taskDropped(list.id, $event)">
+    </mat-card-content>
+    <mat-card-content *ngFor="let task of getTasksFromList(list.id)" cdkDropList (cdkDropListDropped)="taskDropped(list.id, $event)">
+      <mat-card class="board__task" cdkDrag [cdkDragData]="task">
+        <mat-card-content>
+          <mat-form-field appearance="outline" [floatLabel]="'never'">
+            <textarea cdkTextareaAutosize matInput placeholder="Type your task here!" [ngModel]="task.task"
+              (ngModelChanged)="modifyTaskText($event)"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <mat-icon (click)="deleteTask(task.id, $event)">delete_outline</mat-icon>
+          <div cdkDragHandle>
+            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="board__add-list-container">
+    <mat-card-content (click)="addNewList($event)">
+      <button mat-button>
+        <mat-icon color="basic">add</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #deleteListConfirmationDialog>
+  <h2 mat-dialog-title>Delete list: {{selectedList.name}}</h2>
+  <mat-dialog-content>
+    This list has {{countTasks(selectedList.id)}} tasks.
+  </mat-dialog-content>
+  <mat-dialog-content>
+    <b>They will all be deleted</b>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-button [mat-dialog-close]="true" (click)="deleteList(selectedList.id)">Yes, delete list</button>
+  </mat-dialog-actions>
+</ng-template>

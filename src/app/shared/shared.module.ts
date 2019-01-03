@@ -9,7 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule, MatDividerModule, MatProgressBarModule, MatSnackBarModule, MatChipsModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule, MatDividerModule, MatProgressBarModule, MatChipsModule } from '@angular/material';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { IAuthService, authFactory } from './services/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -45,7 +48,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule, // requirement from MatTabsModule
     MatFormFieldModule,
     MatChipsModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule,
+    MatDialogModule,
+    DragDropModule
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,121 @@
+@import "variables";
+
+mat-progress-bar {
+  width: 100%;
+  position: absolute;
+}
+
+.board__container {
+  // override angular material styles
+  ::ng-deep {
+    .mat-card-header-text {
+      margin: 0px !important;
+    }
+
+    .mat-form-field-wrapper {
+      padding: 0 !important;
+    }
+  }
+
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 15px;
+
+  .board__title {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 108%;
+
+    &:focus {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .board__list, .board__add-list-container {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    margin: 0 10px;
+  }
+
+  .board__list {
+    min-width: 20%;
+
+    .board__add-task {
+      position: absolute;
+      right: 9px;
+      top: 5px;
+    }
+  }
+
+  .empty-list-helper {
+    height: 10px;
+  }
+
+  .board__add-list-container {
+    mat-card-content {
+      text-align: center;
+    }
+  }
+
+  .board__task {
+    .mat-form-field-wrapper {
+      padding: 0 !important;
+    }
+
+    mat-card-content {
+      margin-bottom: 0px;
+    }
+
+    mat-card-actions {
+      display: flex;
+      justify-content: space-between;
+
+      * {
+        cursor: pointer;
+      }
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  @media #{$mat-md} {
+    .board__list {
+      min-width: 30%;
+    }
+  }
+
+  @media #{$mat-lt-sm} {
+    .board__list {
+      min-width: 55%;
+    }
+  }
+}
+
+// apply styles to floating placeholder while dragging. 
+// This placeholder is placed under <body> and can't be configured to be placed elsewhere
+::ng-deep {
+  .board__task.cdk-drag-preview {
+    mat-card-content {
+      margin-bottom: 0px;
+    }
+
+    mat-card-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

@@ -6,19 +6,23 @@
 }
 
 @import "./assets/fonts/medium.scss";
+
 $main-font-family: "medium-content-sans-serif-font";
 
 @import "~@angular/material/theming";
+
 // @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 // @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 // @import "~@angular/material/prebuilt-themes/purple-green.css";
 
 body {
   font-family: $main-font-family;
   font-size: 14px;
+  overflow: hidden;
 }
 
-$custom-typography: mat-typography-config($font-family: $main-font-family);
+$custom-typography: mat-typography-config($font-family: $main-font-family, $body-1: mat-typography-level(14px, 24px, 600));
 
 @include mat-core($custom-typography);
