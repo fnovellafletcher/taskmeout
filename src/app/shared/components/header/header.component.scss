@@ -44,7 +44,7 @@
 }
 
 @media #{$mat-lt-sm} {
-  .header__brand-name, .header__username {
+  .header__username {
     display: none;
   }
 }

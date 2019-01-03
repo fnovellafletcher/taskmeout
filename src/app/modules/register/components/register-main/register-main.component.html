@@ -2,7 +2,7 @@
 
   <div class="nav-container">
     <mat-card>
-      <mat-tab-group [selectedIndex]="1" (selectedTabChange)="goToRegister();">
+      <mat-tab-group [selectedIndex]="0" (selectedTabChange)="goToLogin();">
         <mat-tab>
           <ng-template mat-tab-label>
             Sign up
@@ -19,8 +19,8 @@
 
   <div class="form-container">
     <mat-card>
-      <mat-card-subtitle>Hello there!</mat-card-subtitle>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-subtitle>New here?</mat-card-subtitle>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <mat-card-content>
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
@@ -32,15 +32,15 @@
             <mat-label>Password</mat-label>
             <input type="password" matInput placeholder="Password" formControlName="password">
             <mat-icon matSuffix>lock</mat-icon>
+            <mat-hint>Password can be as "weak" as you want!</mat-hint>
             <mat-error *ngIf="showErrorMessage(f.password)">How did you mess this up?</mat-error>
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
           <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
-            <mat-chip *ngIf="userDoesNotExist" selected [color]="'warn'">There is no user matching this username</mat-chip>
-            <mat-chip *ngIf="incorrectPassword" selected [color]="'warn'">Incorrect password</mat-chip>
+            <mat-chip *ngIf="registerFailed" selected [color]="'warn'">Oops, something went wrong. Try agains</mat-chip>
           </mat-chip-list>
-          <button *ngIf="!loading" mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Submit</button>
+          <button *ngIf="!loading" mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Submit</button>
           <mat-progress-bar *ngIf="loading" [mode]="'indeterminate'"></mat-progress-bar>
         </mat-card-actions>
       </form>

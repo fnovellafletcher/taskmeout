@@ -30,10 +30,12 @@ class RealAuthService extends IAuthService {
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USERNAME_KEY = 'auth_username';
 
-  private _isLoggedIn = new Subject<boolean>();
+  private _isLoggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
     super();
+
+    this._isLoggedIn.next(!!this.getToken());
   }
 
   login(username, password): Observable<LoginResult> {
@@ -76,6 +78,8 @@ class RealAuthService extends IAuthService {
   }
 
   logout() {
+    if (!localStorage.getItem(this.TOKEN_KEY)) { return; }
+
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USERNAME_KEY);
     this._isLoggedIn.next(false);

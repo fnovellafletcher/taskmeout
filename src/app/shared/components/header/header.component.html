@@ -2,11 +2,11 @@
   <img class="header__logo-img" src="/assets/img/logo-white.png" alt="">
   <!-- <img class="header__brand-name" src="/assets/img/name.png" alt=""> -->
   <span class="header__brand-name">TaskMeOut</span>
-  <div class="header__content">
+  <div *ngIf="loggedIn" class="header__content">
     <div class="header__username">
       <span>{{username}}</span>
     </div>
-    <div class="header__logout">
+    <div class="header__logout" (click)="logout($event)">
       <mat-icon>exit_to_app</mat-icon>
     </div>
   </div>

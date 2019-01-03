@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IAuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  username: string;
+  loggedIn: boolean;
 
-  constructor() { }
-
-  ngOnInit() {
-    // temporal
-    this.username = 'Logged In User\'s name';
+  get username() {
+    return this.loggedIn ? this.authService.getUsername() : '';
   }
 
+  constructor(private authService: IAuthService) { }
+
+  ngOnInit() {
+    this.authService.isLogged()
+      .subscribe(isLogged => {
+        this.loggedIn = isLogged;
+      });
+  }
+
+  logout($event: Event) {
+    $event.stopPropagation();
+    this.authService.logout();
+  }
 }

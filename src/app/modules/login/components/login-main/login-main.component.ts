@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IAuthService } from 'src/app/shared/services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-main',
   templateUrl: './login-main.component.html',
   styleUrls: ['./login-main.component.scss']
 })
-export class LoginMainComponent implements OnInit {
+export class LoginMainComponent implements OnInit, OnDestroy {
 
   loading = false;
 
@@ -27,9 +28,19 @@ export class LoginMainComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  sub: Subscription;
+
   constructor(private authService: IAuthService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.sub) { this.sub.unsubscribe(); }
+  }
+
+  goToRegister() {
+    this.router.navigateByUrl('register');
   }
 
   showErrorMessage(control: AbstractControl): boolean {
@@ -44,7 +55,6 @@ export class LoginMainComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(this.f.username.value, this.f.password.value)
-      // .pipe(takeUntil(this.authService.isLogged())) // kill main subscription whenever this observable fires
       .subscribe(
         result => {
           if (result.success) {
