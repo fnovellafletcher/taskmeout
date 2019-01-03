@@ -37,6 +37,10 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
+          <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
+            <mat-chip *ngIf="userDoesNotExist" selected [color]="'warn'">There is no user matching this username</mat-chip>
+            <mat-chip *ngIf="incorrectPassword" selected [color]="'warn'">Incorrect password</mat-chip>
+          </mat-chip-list>
           <button *ngIf="!loading" mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Submit</button>
           <mat-progress-bar *ngIf="loading" [mode]="'indeterminate'"></mat-progress-bar>
         </mat-card-actions>
