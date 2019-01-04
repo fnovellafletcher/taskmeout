@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { IAuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription, of } from 'rxjs';
@@ -74,9 +74,12 @@ export class BoardMainComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateList(listId: number, name: string) {
+  modifyList(listId: number, $event: Event) {
+    const htmlTarget = ($event.target) as HTMLInputElement;
+    const text = htmlTarget.value;
+
     this.loading = true;
-    this.boardService.modifyList(listId, name)
+    this.boardService.modifyList(listId, text)
       .pipe(flatMap(result => of(result)))
       .subscribe(result => this.loading = false);
   }
@@ -90,6 +93,19 @@ export class BoardMainComponent implements OnInit, OnDestroy {
       });
     // optimistic approach. Trust the service and assume it has done its work properly
     // and add the task manually without consuming the service again.
+  }
+
+  modifyTaskText(taskId: number, $event: Event, idlist: number) {
+    const htmlTarget = ($event.target) as HTMLInputElement;
+    const task = htmlTarget.value;
+
+    this.loading = true;
+    this.boardService.modifyTask(taskId, task, idlist)
+      .subscribe(result => {
+        this.loading = false;
+        const taskToModify = this.tasks.find(x => x.id === taskId);
+        taskToModify.task = task;
+      });
   }
 
   taskDropped(listId: number, $event: CdkDragDrop<TaskDto[]>) {

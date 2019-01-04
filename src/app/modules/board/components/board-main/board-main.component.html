@@ -3,7 +3,7 @@
   <mat-card class="board__list" *ngFor="let list of lists">
     <mat-card-header>
       <mat-card-title>
-        <input class="board__title" placeholder="Type list name here" [ngModel]="list.name" (ngModelChange)="updateList(list.id, list.name)">
+        <input class="board__title" placeholder="Type list name here" (change)="modifyList(list.id, $event)" [value]="list.name">
       </mat-card-title>
       <button class="board__add-task" mat-icon-button [matMenuTriggerFor]="listOptions">
         <mat-icon>more_horiz</mat-icon>
@@ -20,8 +20,9 @@
       <mat-card class="board__task" cdkDrag [cdkDragData]="task">
         <mat-card-content>
           <mat-form-field appearance="outline" [floatLabel]="'never'">
-            <textarea cdkTextareaAutosize matInput placeholder="Type your task here!" [ngModel]="task.task"
-              (ngModelChanged)="modifyTaskText($event)"></textarea>
+            <textarea cdkTextareaAutosize matInput placeholder="Type your task here!"
+              (change)="modifyTaskText(task.id, $event, task.idlist)"
+              [value]="task.task"></textarea>
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions>

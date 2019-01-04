@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ListDto } from '../models/list-dto';
 import { TaskDto } from '../models/task-dto';
-import { delay } from 'rxjs/operators';
+import { delay, flatMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,79 @@ export abstract class IBoardService {
   abstract createTask(text: string, listId: number): Observable<TaskDto>;
   abstract modifyTask(id: number, text: string, listId: number): Observable<any>;
   abstract deleteTask(id: number): Observable<any>;
+}
+
+class RealBoardService extends IBoardService {
+  private listEndpoint = environment.apihost + '/list';
+  private tasksEndpoint = environment.apihost + '/tasks';
+  private listTasksEndpoint = environment.apihost + '/list/tasks';
+
+  constructor(private http: HttpClient) { super(); }
+
+  getLists(): Observable<ListDto[]> {
+    return this.http.get<ListDto[]>(this.listEndpoint);
+  }
+
+  createList(name: string): Observable<ListDto> {
+    const data = {
+      name: name
+    };
+
+    return this.http.post<ListDto>(this.listEndpoint, data);
+  }
+
+  modifyList(id: number, name: string): Observable<any> {
+    const endpoint = this.listEndpoint + '/' + id;
+    const data = {
+      name: name
+    };
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    return this.http.put<ListDto>(endpoint, data, { headers: headers });
+  }
+
+  deleteList(id: number): Observable<any> {
+    const endpoint = this.listEndpoint + '/' + id;
+    const deleteTasksEndpoint = this.listTasksEndpoint + '/' + id;
+
+    // nest the observables here so it's transparent to the front
+    return this.http.delete(deleteTasksEndpoint, { responseType: 'text' })
+      .pipe(flatMap(result => this.http.delete<ListDto>(endpoint)));
+  }
+
+  getTasks(): Observable<TaskDto[]> {
+    return this.http.get<TaskDto[]>(this.tasksEndpoint);
+  }
+
+  createTask(text: string, listId: number): Observable<TaskDto> {
+    const data = {
+      idlist: listId,
+      task: text || ''
+    };
+
+    return this.http.post<TaskDto>(this.tasksEndpoint, data);
+  }
+
+  modifyTask(id: number, text: string, listId: number): Observable<any> {
+    const endpoint = this.tasksEndpoint + '/' + id;
+    const data = {
+      task: text,
+      listId: listId    // API not ready to change the listId of a task :(
+    };
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    return this.http.put<any>(endpoint, data, { headers: headers });
+  }
+
+  deleteTask(id: number): Observable<any> {
+    const endpoint = this.tasksEndpoint + '/' + id;
+
+    return this.http.delete<any>(endpoint);
+  }
 }
 
 class FakeBoardService extends IBoardService {
@@ -94,4 +169,5 @@ class FakeBoardService extends IBoardService {
   }
 }
 
-export const boardFactory = () => new FakeBoardService(); // just fake for the moment
+export const boardFactory = (httpClient: HttpClient) =>
+  environment.fakeApi ? new FakeBoardService() : new RealBoardService(httpClient);

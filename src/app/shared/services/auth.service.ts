@@ -45,8 +45,7 @@ class RealAuthService extends IAuthService {
     };
 
     const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Access-Control-Allow-Origin', 'true');
+      .set('Content-Type', 'application/json');
 
     const login$ = this.http.post(this.loginURL, data, { headers: headers, observe: 'response', responseType: 'text' })
       .pipe(catchError(error => {

@@ -27,8 +27,7 @@ class RealRegisterService extends IRegisterService {
     };
 
     const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Access-Control-Allow-Origin', 'true');
+      .set('Content-Type', 'application/json');
 
     const register$ = this.http.post(this.registerUrl, data, { headers: headers, observe: 'response' })
       .pipe(catchError(error => {
